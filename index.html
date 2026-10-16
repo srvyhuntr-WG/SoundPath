@@ -92,6 +92,20 @@ nav button.on{color:var(--ink);font-weight:700}nav button.on .ic{background:var(
 table{width:100%;border-collapse:collapse;font-size:15px}td,th{padding:10px 6px;border-bottom:1px solid var(--line);text-align:left}th{font:650 12.5px var(--hd);color:var(--mute)}
 .note{font-size:13px;color:var(--mute);background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--pri);border-radius:10px;padding:10px 12px;margin:12px 0}
 :root[data-theme="sun"] .note{border:2px solid #000;border-left-width:6px}
+.cw-head{display:flex;gap:14px;align-items:center;margin-bottom:14px}.cw-head h1{font-size:23px;margin:0}.cw-head .sub{margin:3px 0 0}
+.cw-ic{width:48px;height:48px;border-radius:15px;background:var(--pri);color:var(--priink);display:grid;place-items:center;flex:none}.cw-ic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.cw-ic.sm{width:38px;height:38px;border-radius:12px;background:var(--pri);color:var(--priink)}.cw-ic.sm svg{width:21px;height:21px}
+.cw-prog{display:flex;align-items:center;gap:10px;margin:0 0 4px}.cw-prog span{font:650 12.5px var(--hd);color:var(--mute);white-space:nowrap}
+.cw-bar{display:flex;gap:4px;flex:1}.cw-bar i{flex:1;height:6px;border-radius:99px;background:var(--line)}.cw-bar i.on{background:var(--acc)}
+.cw-gt{font:700 12px var(--hd);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin:16px 2px 6px}
+.cw-list{background:var(--surf);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--sh)}
+.cw-row{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;padding:8px 14px;border:0;border-top:1px solid var(--line);background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer}.cw-row:first-child{border-top:0}.cw-row[disabled]{cursor:default;opacity:1}
+.cw-row b{font:650 15.5px var(--hd);min-width:0;flex:1}.cw-v{color:var(--mute);font-size:13.5px;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cw-add{flex:none;font:700 12.5px var(--hd);background:var(--pri);color:var(--priink);padding:5px 12px;border-radius:99px}.cw-act{position:sticky;bottom:-20px;background:var(--bg);margin:0 -16px -20px;padding:4px 16px calc(14px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 12px -8px var(--bg)}
+.cw-dot{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;border:2px solid var(--pri);color:var(--surf)}.cw-row.ok .cw-dot{background:var(--acc);border-color:var(--acc)}.cw-dot svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.cw-ban{background:var(--surf);color:var(--ink);border:1px solid var(--line);box-shadow:var(--sh);border-radius:16px;padding:14px;margin-bottom:12px}.cw-bh{display:flex;gap:12px;align-items:center;margin-bottom:10px}.cw-bh b{font:750 16px var(--hd)}.cw-bs{font-size:13px;margin-top:2px;opacity:.85}
+.sheet.calwarn>div{background:var(--surf);color:var(--ink)}.calwarn .cw-bar i{background:var(--line)}.calwarn .cw-bar i.on{background:var(--ink)}.calwarn .cw-act .btn.pri{background:var(--pri);color:var(--priink);border-color:var(--pri)}
+.cw-act{margin-top:14px}.cw-head+.cw-prog{margin-top:2px}
+.cw-ban .cw-bar i{background:var(--line)}.cw-ban .cw-bar i.on{background:var(--ink)}.cw-ban .btn{margin-top:12px;background:var(--pri);color:var(--priink);border-color:var(--pri)}
+:root[data-theme="sun"] .cw-row.ok .cw-dot{background:#000;border-color:#000}:root[data-theme="sun"] .cw-dot{border-color:#000}
 .cV{background:#444}.q{border:1px solid var(--line);border-radius:99px;width:22px;height:22px;font:700 13px var(--hd);background:var(--seg);color:var(--ink);padding:0;vertical-align:middle}.frame{aspect-ratio:4/3;background:#0d1117;border-radius:16px;display:grid;place-items:center;color:#9aa4b2;border:2px solid var(--pri);margin-bottom:12px;text-align:center;padding:12px}.sheet{position:fixed;inset:0;background:rgba(8,12,18,.55);display:flex;align-items:flex-end;justify-content:center;z-index:9}.sheet>div{background:var(--bg);max-width:520px;width:100%;max-height:85%;overflow:auto;border-radius:22px 22px 0 0;padding:20px 16px}.sel{outline:2px solid var(--ink);outline-offset:1px}.paper{background:#fff;color:#000;padding:18px;border:1px solid var(--line);border-radius:12px;font-size:14px}.paper td,.paper th{border-color:#ccc}img.ph{width:100%;border-radius:12px;margin-bottom:8px}ol{padding-left:20px;margin:6px 0}@media print{nav,.back,.btn,.noprint{display:none!important}main{padding:0}}
 
 .btn[disabled]{cursor:not-allowed}
@@ -766,7 +780,7 @@ function awsAnglesFor(d){const th=num(d.thick);if(th==null||th<=0)return null;co
  const a=awsRows('2020',lkey(ld)).filter(r=>{const f=mmOf(r.from,r.fromMm)||0,t=mmOf(r.to,r.toMm);return((f<=0||r.inc)?tm>=f:tm>f)&&(t==null||tm<=t)}).map(r=>num(r.ang)).filter(x=>x!=null);return[...new Set(a)].sort((x,y)=>x-y)}
 function coverWarn(R){const c=R&&R.cover;if(!c)return '';
  const mm=`${c.tm} mm`;
- if(c.kind==='angle')return `<div class="warn" role="alert"><div class="wi">!</div><div><b>${c.ang}° does not cover this weld</b><p>AWS D1.1:2020 Table ${c.table} (${esc(c.loading.toLowerCase())}) has no row for a ${c.ang}° probe at ${mm}. At this thickness the code lists ${c.okAng.map(x=>x+'°').join(' and ')}.</p><div class="wc"><span>Switch to</span>${c.okAng.map(x=>`<button type="button" data-setang="${x}">${x}° probe</button>`).join('')}</div><div class="wf">No rating can be given until the probe angle matches a table row.</div></div></div>`;
+ if(c.kind==='angle')return `<div class="warn" role="alert"><div class="wi">!</div><div><b>${c.ang}° does not cover this weld</b><p>AWS D1.1:2020 Table ${c.table} (${esc(c.loading.toLowerCase())}) has no row for a ${c.ang}° probe at ${mm}. At this thickness the code lists ${c.okAng.map(x=>x+'°').join(' and ')}.</p><p>Readings taken with the ${c.ang}° probe cannot be carried over. Rate the indication with the ${c.okAng.map(x=>x+'°').join(' or ')} probe: re-test it and enter those readings. The ${c.ang}° probe can still be used to help find the flaw.</p><div class="wc"><span>Re-test with</span>${c.okAng.map(x=>`<button type="button" data-setang="${x}">${x}° probe</button>`).join('')}</div><div class="wf">No rating can be given until the probe angle matches a table row.</div></div></div>`;
  return `<div class="warn" role="alert"><div class="wi">!</div><div><b>Thickness is outside the table</b><p>${mm} is not covered by Table ${c.table}.${c.hi!=null?` The table covers ${c.lo} to ${c.hi} mm.`:''}</p><div class="wf">Check the thickness. No rating can be given until it falls inside the table.</div></div></div>`}
 const awsBasis=s=>s&&s.mode==='table'?`AWS D1.1:2020 Table ${lkey(s.loading)==='cyclic'?'8.3':'8.2'} · ${loadLabel(s.loading)} · ${s.ang}° · ${+(+s.thick).toFixed(1)} mm`:'Limits entered by hand';
 // ASME: thickness-dependent length limit from the bands
@@ -1036,11 +1050,11 @@ function phdSheet(pj){const un=pj==='No project',from=un?'':pj,jobs=Object.keys(
 function wire8(){const on=(i,f)=>{const e=$(i);if(e)e.onclick=f};
  document.querySelectorAll('[data-phd]').forEach(b=>b.onclick=()=>phdSheet(b.dataset.phd));
  on('rdopen',()=>{RD=null;go('repdet')});on('cdopen',()=>{RD=null;go('repdet')});wireRD();
- on('newproj',()=>{if(!calGate())return;S.proj='';S.ctx={job:'',weld:''};save();NEWPROJ=true;go('new')});
+ on('newproj',()=>{const nx=()=>{S.proj='';S.ctx={job:'',weld:''};save();NEWPROJ=true;go('new')};if(!calGate(nx))return;nx()});
  if($('proj')&&NEWPROJ){NEWPROJ=false;try{$('proj').focus()}catch(e){}}
  if($('proj'))$('proj').oninput=e=>{S.proj=e.target.value.trim();save();if($('jobs'))$('jobs').innerHTML=jobNames().map(j=>`<option value="${esc(j)}">`).join('');if($('wchips')&&$('job')){$('wchips').innerHTML=wchips($('job').value.trim());bindChips()}};
  document.querySelectorAll('[data-proj]').forEach(b=>b.onclick=()=>{RP=b.dataset.proj;tab('reports')});
- on('seeall2',()=>{RP='';tab('reports')});on('allproj',()=>{RP='';render()});on('addjob',()=>{if(!calGate())return;S.proj=RP==='No project'?'':RP;S.ctx={job:'',weld:''};save();go('new')})}
+ on('seeall2',()=>{RP='';tab('reports')});on('allproj',()=>{RP='';render()});on('addjob',()=>{const nx=()=>{S.proj=RP==='No project'?'':RP;S.ctx={job:'',weld:''};save();go('new')};if(!calGate(nx))return;nx()})}
 function wire7(){{const q=$('rq');if(q){q.oninput=()=>{clearTimeout(RQT);RQT=setTimeout(()=>{const c=q.selectionStart;RQ=q.value;keepRender();const n=$('rq');if(n){n.focus();try{n.setSelectionRange(c,c)}catch(e){}}},150)};q.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();q.blur()}}}}
  if(route[0]==='weld'){const k=route[1],mm=()=>(S.weldMeta[k]=S.weldMeta[k]||{}),sv=()=>{save();keepRender()};
   if($('wm_len'))$('wm_len').onchange=e=>{mm().len=norm(e.target.value);sv()};if($('wm_s'))$('wm_s').onchange=e=>{mm().s=e.target.checked;sv()};if($('wm_e'))$('wm_e').onchange=e=>{mm().e=e.target.checked;sv()}}
@@ -1079,7 +1093,7 @@ function limits(){
  <div class="shd"><h2>Rating to</h2><span>Tap a code to change it</span></div><div class="grp">${cp('aws','AWS D1.1 · 2020','Structural steel. Class A to D rating.')}${cp('asme','ASME VIII-1 · 2019','Pressure vessels. DAC amplitude and length.')}<div class="li" aria-disabled="true" style="opacity:.55;cursor:default"><div class="grow"><b>More codes</b><div class="sub">${SOON_CODES.map(c=>c[0]).join(' · ')}</div></div><span class="tag" style="white-space:nowrap">Coming soon</span></div><button class="li" id="tgl" role="switch" aria-checked="${!!S.codeDefault}"><div class="grow"><b>Always use this code</b><div class="sub">${S.codeDefault?'Opens straight into '+CODES[cur]:'Asked each time you open the app'}</div></div><span class="sw ${S.codeDefault?'on':''}"></span></button></div>
  ${equipSection()}
  <h2>Inspector and client</h2><div class="grp"><button class="li" id="cdopen" type="button"><div class="grow"><b>Report details</b><div class="sub">${esc([(S.inspector||'').trim()?'Inspector: '+S.inspector.trim():'Inspector not set',(S.client||'').trim()?'Client: '+S.client.trim():'Client not set'].join(' · '))}</div></div><span class="tag ${(S.inspector||'').trim()&&(S.client||'').trim()?'a':''}">${(S.inspector||'').trim()&&(S.client||'').trim()?'Set':'Add'}</span><i class="lch"></i></button></div>
- <h2>DAC curve</h2><div class="card row"><div class="grow"><b>Reference curve</b><div class="sub">${dacPts().length>=2?dacPts().length+' points saved':'Not set up yet'}</div></div><button class="back" id="edac" style="padding:0">${dacPts().length>=2?'Edit':'Set up'}</button></div>${dacPts().length>=2?`<div class="card chart"><div class="sub" style="margin:0 0 6px;font-weight:650">Current curve${S.dac&&S.dac.angle?' · '+esc(String(S.dac.angle))+'° probe':''}</div>${dacPreview()}</div>`:''}
+ <h2>DAC curve</h2><div class="f" style="margin:0 0 10px"><label>Probe angle</label><div class="seg" data-dacsel="1" role="group" aria-label="DAC probe angle">${(S.dacs||[]).map((x,i)=>`<button type="button" class="${x===S.dac?'on':''}" data-i="${i}">${esc(String(x.angle||'?'))}°</button>`).join('')}</div><div class="hint">One DAC curve per probe angle. Pick an angle to see or edit its curve.</div></div><div class="card row"><div class="grow"><b>Reference curve${S.dac&&S.dac.angle?' · '+esc(String(S.dac.angle))+'°':''}</b><div class="sub">${dacPts().length>=2?dacPts().length+' points saved':'Not set up yet'}</div></div><button class="back" id="edac" style="padding:0">${dacPts().length>=2?'Edit':'Set up'}</button></div>${dacPts().length>=2?`<div class="card chart"><div class="sub" style="margin:0 0 6px;font-weight:650">Current curve${S.dac&&S.dac.angle?' · '+esc(String(S.dac.angle))+'° probe':''}</div>${dacPreview()}</div>`:''}
  <h2>AWS D1.1/D1.1M · 2020 ${(S.rules||'aws')==='aws'?'<span class="tag a">Active</span>':''}</h2>
  <div class="card"><div class="row"><div class="grow"><b>Tables 8.2 and 8.3</b><div class="sub">8.2: static, and cyclic in compression<br>8.3: cyclic in tension<br>${ns} + ${nc} rows</div></div>${tag(vA.ok,!pA)}</div>
  <table style="margin-top:8px"><tr><td style="white-space:nowrap">Class A</td><td>reject at any length</td></tr><tr><td style="white-space:nowrap">Class B</td><td>reject over ${esc(awsLen('B')??'?')} mm</td></tr><tr><td style="white-space:nowrap">Class C</td><td>reject over ${esc(awsLen('C')??'?')} mm${awsLen('Cq')?` (cyclic tension: over ${esc(awsLen('Cq'))} mm in the top or bottom quarter)`:''}</td></tr><tr><td style="white-space:nowrap">Class D</td><td>accept at any length</td></tr></table></div>
@@ -1141,7 +1155,7 @@ function autoAsme(){
 function autoAngle(){if(route[0]!=='inputs'||!draft)return;const a=awsAnglesFor(draft);if(!a)return;const cur=num(draft.angle);if(draft.angleAuto&&cur===draft.angleAutoVal&&!a.includes(cur)){draft.angle=0;draft.angleAuto=false}if(!num(draft.angle)&&a.length===1){draft.angle=a[0];draft.angleAuto=true;draft.angleAutoVal=a[0];const e=$('f_angle');if(e)e.value=a[0]}}
 function refreshLive(){dacUse(draft&&draft.angle);autoAngle();syncLen();{const q=$('dcov2');if(q)q.innerHTML=dacCoverHTML(draft.thick,num(draft.angle)>0?draft.angle:(S.dac&&S.dac.angle))}if(!AUTO_BUSY&&route[0]==='dacin'){AUTO_BUSY=true;try{autoAsme()}finally{AUTO_BUSY=false}}keepDraft();$('liveBox').innerHTML=liveHTML();if($('dacChart'))$('dacChart').innerHTML=dacChartFor(draft);if($('wvsvg')){WVD=draft;WVRJ=undefined;drawWeld()}const b=$('res');if(b)b.onclick=()=>{REVEAL=true;go(route[0]==='dacin'?'dacres':'result')};
  if(route[0]==='inputs'){const R=resolveAws(draft),cw=$('cwarn'),have=num(draft.angle)&&num(draft.thick)>0;
-  if(cw){cw.innerHTML=have?coverWarn(R):'';cw.querySelectorAll('[data-setang]').forEach(x=>x.onclick=()=>{draft.angle=+x.dataset.setang;if($('f_angle'))$('f_angle').value=x.dataset.setang;refreshLive()})}
+  if(cw){cw.innerHTML=have?coverWarn(R):'';cw.querySelectorAll('[data-setang]').forEach(x=>x.onclick=()=>{draft.angle=+x.dataset.setang;if($('f_angle'))$('f_angle').value=x.dataset.setang;refreshLive();angleGuard()})}
   const av=awsAnglesFor(draft);document.querySelectorAll('.seg[data-k="angle"] button').forEach(x=>{const a=+x.dataset.v;x.classList.toggle('on',num(draft.angle)===a);x.classList.toggle('na',!!av&&!av.includes(a))})}}
 function startDraft(job,weldId,proj){proj=proj==null?(S.proj||''):proj;const K=jkey(proj,job);
   const n=S.readings.filter(r=>jk(r)===K&&r.weld===weldId).length+1;
@@ -1164,9 +1178,10 @@ function wire(){
   if($('edit'))$('edit').onclick=back;
   if($('sv'))$('sv').onclick=()=>{const rec=commitDraft();hist=[];route=['saved',rec.id];render()};
   if($('wipe'))$('wipe').onclick=()=>{const d=sheet(`<h1 style="font-size:22px">Reset all data?</h1><p class="sub">This deletes every project, job, weld, indication, reading, repair, report and the inspector and client details from this phone. It cannot be undone. Back up first.</p><div class="f" style="margin:12px 0 8px"><label for="wp_t">Type SoundPath to confirm</label><input id="wp_t" placeholder="SoundPath" autocomplete="off" autocapitalize="off" spellcheck="false"></div><button class="btn pri dng" id="wp_ok" disabled>Reset all data</button><button class="btn" id="wp_x">Cancel</button>`);const t=d.querySelector('#wp_t'),ok=d.querySelector('#wp_ok');t.oninput=()=>{ok.disabled=t.value.trim().toLowerCase()!=='soundpath'};d.querySelector('#wp_x').onclick=()=>d.remove();ok.onclick=()=>{if(t.value.trim().toLowerCase()!=='soundpath')return;d.remove();S.readings=[];S.drafts=[];S.clean=[];S.repairs=[];S.jobReports={};S.weldMeta={};['inspector','cert','company','client','clientContact','clientPhone','clientEmail','clientAddress','clientRef'].forEach(k=>{S[k]=''});delete S.clientShow;delete S.clientContactShow;RT='ind';S.ctx={job:'',weld:''};S.proj='';delete S.lastMove;draft=null;RD=null;RQ='';XQ='';RP='';XSEL=null;save();tx('readwrite',s=>s.clear()).catch(()=>{});hist=[];route=['settings'];render();toast('All data reset')};setTimeout(()=>t.focus(),50)};
-  document.querySelectorAll('.seg[data-k]').forEach(s=>s.querySelectorAll('button').forEach(b=>b.onclick=()=>{draft[s.dataset.k]=s.dataset.k==='angle'?+b.dataset.v:b.dataset.v;if(s.dataset.k==='angle'&&$('f_angle'))$('f_angle').value=b.dataset.v;s.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(s.dataset.k==='gcorr')dacCalc(false);if(route[0]==='inputs'||route[0]==='dacin')refreshLive()}));
+  document.querySelectorAll('.seg[data-k]').forEach(s=>s.querySelectorAll('button').forEach(b=>b.onclick=()=>{draft[s.dataset.k]=s.dataset.k==='angle'?+b.dataset.v:b.dataset.v;if(s.dataset.k==='angle'&&$('f_angle'))$('f_angle').value=b.dataset.v;s.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));if(s.dataset.k==='gcorr')dacCalc(false);if(route[0]==='inputs'||route[0]==='dacin')refreshLive();if(s.dataset.k==='angle')angleGuard()}));
+  document.querySelectorAll('input[data-k="angle"]').forEach(i=>i.onchange=()=>angleGuard());
   document.querySelectorAll('.seg[data-s]').forEach(s=>s.querySelectorAll('button').forEach(b=>b.onclick=()=>{S[s.dataset.s]=b.dataset.v;save();keepRender()}));
-  document.querySelectorAll('input[data-k]').forEach(i=>i.oninput=()=>{draft[i.dataset.k]=norm(i.value);if(['depth','path','skip'].includes(i.dataset.k))draft[i.dataset.k+'Auto']=false;if(i.dataset.k==='angle')document.querySelectorAll('.seg[data-k="angle"] button').forEach(x=>x.classList.toggle('on',num(i.value)===+x.dataset.v));if(i.dataset.k==='thick'&&$('thin'))$('thin').textContent=num(i.value)>0?'':'Nominal thickness of the thinner part joined';refreshLive()});
+  document.querySelectorAll('input[data-k]').forEach(i=>i.oninput=()=>{draft[i.dataset.k]=norm(i.value);if((DKEYS.includes(i.dataset.k)||i.dataset.k==='refGainDb')&&num(draft.angle)>0&&(draft.origAngle==null||draft.origAngle===''||!DKEYS.concat(['refGainDb']).some(k=>k!==i.dataset.k&&String(draft[k]==null?'':draft[k]).trim()!=='')))draft.origAngle=draft.angle;if(['depth','path','skip'].includes(i.dataset.k))draft[i.dataset.k+'Auto']=false;if(i.dataset.k==='angle')document.querySelectorAll('.seg[data-k="angle"] button').forEach(x=>x.classList.toggle('on',num(i.value)===+x.dataset.v));if(i.dataset.k==='thick'&&$('thin'))$('thin').textContent=num(i.value)>0?'':'Nominal thickness of the thinner part joined';refreshLive()});
   document.querySelectorAll('input[data-calc]').forEach(i=>i.addEventListener('input',()=>dacCalc(false)));
   if($('f_path'))$('f_path').addEventListener('input',()=>dacCalc(true));
   document.querySelectorAll('[data-sgn-f]').forEach(b=>b.onclick=()=>{const i=$('f_'+b.dataset.sgnF);i.value=flipSign(i.value);i.oninput();if(i.dataset.calc&&typeof dacCalc==='function')dacCalc(false);i.focus()});
@@ -1377,7 +1392,7 @@ function wire2(){
  
  document.querySelectorAll('[data-rule]').forEach(e=>e.onclick=()=>{pr=e.dataset.rule;render()});
  on('userule',()=>{if(pr==='aws'){S.rules='aws';codeChosen=true;save();tab('home')}else{S.rules='asme';codeChosen=true;save();tab('home')}});
- on('svd',()=>{const r=dacRate(draft),rec={...draft,id:'r'+Date.now(),ts:Date.now(),code:'asme',cls:'V',d:0,reject:r.reject,limSnap:resolveAsme(draft).snap};['amp','len','thick'].forEach(k=>rec[k]=+rec[k]||0);['path','depth','angle'].forEach(k=>rec[k]=num(rec[k]));S.readings.push(rec);save();hist=[];route=['saved',rec.id];render()});
+ on('svd',()=>{if(angleGuard())return;const r=dacRate(draft),rec={...draft,id:'r'+Date.now(),ts:Date.now(),code:'asme',cls:'V',d:0,reject:r.reject,limSnap:resolveAsme(draft).snap};['amp','len','thick'].forEach(k=>rec[k]=+rec[k]||0);['path','depth','angle'].forEach(k=>rec[k]=num(rec[k]));S.readings.push(rec);save();hist=[];route=['saved',rec.id];render()});
 }
 // ---------- wiring for limit modes and table editors ----------
 function wire4(){const on=(id,f)=>{if($(id))$(id).onclick=f};
@@ -2359,6 +2374,14 @@ function syncLen(){if(!draft||!(route[0]==='dacin'||route[0]==='inputs'))return;
  const L=String(+(ye-ya).toFixed(1)),cur=String(draft.len??'');
  if(cur===''||(draft.lenAuto&&cur===draft.lenAutoVal)){if(cur!==L){draft.len=L;draft.lenAuto=true;draft.lenAutoVal=L;const el=$('f_len');if(el)el.value=L}}
  else if(draft.lenAuto&&cur!==draft.lenAutoVal)draft.lenAuto=false}
+// Plain-words description of the groove exactly as wvProf draws it, so the caption always matches the picture.
+function wvShapeText(prof,t){const f=n=>+(+n).toFixed(1),rf=Math.min(2,t/3),gap=prof==='I'?(t>12?3:2):2,
+ rad=h=>Math.min(6,Math.max(1.5,h/3)),rU=prof==='XU'?rad(t/2+rf/2):rad(t),rtxt=(r)=>f(r)+' mm root radius'+(r<5.95?' (cut down from the usual 6 mm to fit this thickness)':'');
+ const m={V:`single-V (60°, ${gap} mm gap, ${f(rf)} mm root face)`,X:`double-V (60°, ${gap} mm gap, no root face)`,
+  I:`square groove (${gap} mm gap)${t>10?'. A square groove is normally used on thin plate only, so check that this is how the joint was cut':''}`,
+  U:`single-U (20° groove, ${rtxt(rU)}, ${f(rf)} mm root face)`,XU:`double-U (20° groove, ${rtxt(rU)}, ${f(rf)} mm root face at mid-thickness)`,
+  B:`single-bevel (45° on one plate, ${gap} mm gap, ${f(rf)} mm root face)`,K:`K groove (45° bevels top and bottom on one plate, ${gap} mm gap, no root face)`,
+  J:`single-J (10° flank, ${rtxt(rU)}, ${f(rf)} mm root face, on one plate)`,T:'T-joint',TK:'T-joint',TF:'T-joint'};return m[prof]||'groove'}
 function weldCaption(d){
  const G=wvGeo(d);if(G.why)return '';const f=n=>+(+n).toFixed(2);
  if(G.tf){const T=G.TF,bv=T.bev==='none'?'no bevel':T.bev==='double'?'double bevel (both faces of the flange end)':`single bevel on the ${T.side==='near'?'scanned':'far'} face`,fi=T.fil==='none'?'no fillet':T.fil==='both'?`fillet ${f(T.fl)} mm on both sides`:`fillet ${f(T.fl)} mm on the scanned side`;
@@ -2371,7 +2394,7 @@ function weldCaption(d){
  else s+=G.inWeld?`${f(Math.abs(G.xf))} mm ${G.xf<0?'left':'right'} of the centreline, inside the weld metal. `:`${f(Math.abs(G.xf))} mm ${G.xf<0?'left':'right'} of the centreline, ${f(G.beyond)} mm outside the weld metal at that depth. Check the probe distance. `;
  if(num(d.len)>0)s+=`Length ${f(num(d.len))} mm, drawn to scale. `;
  s+=`Beam ${G.leg2?'reflected off the back wall':'direct'}. `;
- return `${esc(s)}<br><span style="opacity:.85">Flaw height and width are a nominal marker, not measured. The weld shape is a typical ${({V:'single-V (60°, 2 mm gap, 2 mm root face)',X:'double-V (60°, 2 mm gap)',I:'square groove',U:'single-U (20° groove, 6 mm root radius, 2 mm root face)',XU:'double-U (20° groove, 6 mm root radius, 2 mm root face)',B:'single-bevel (45° on one plate, 2 mm root face)',K:'K groove (45° bevels top and bottom on one plate)',J:'single-J (10° flank, 6 mm root radius on one plate)',T:'T-joint',TK:'T-joint',TF:'T-joint'})[G.prof]}${WASYM.includes(G.prof)?`, with the probe on the ${d.wflip==='bev'?'bevelled':'square'} side`:''}; pick the one that matches yours.</span>`}
+ return `${esc(s)}<br><span style="opacity:.85">Flaw height and width are a nominal marker, not measured. The weld shape is a typical ${wvShapeText(G.prof,G.t)}${WASYM.includes(G.prof)?`, with the probe on the ${d.wflip==='bev'?'bevelled':'square'} side`:''}; pick the one that matches yours.</span>`}
 function weldTypeBlock(d){const pr=WPK.includes(d.wprof)?d.wprof:'V';return `<h2 style="margin-top:12px">Weld type ${fq('wprof')}</h2><select class="dd" id="f_wprof" aria-label="Weld type">${WPROF.map(([k,l])=>`<option value="${k}"${pr===k?' selected':''}>${l}</option>`).join('')}</select><div id="wtbox" style="${WTJ.includes(pr)?'':'display:none'}"><div class="f" style="margin-top:10px"><label for="f_tw">Web thickness</label><input id="f_tw" data-k="tw" inputmode="decimal" autocomplete="off" value="${esc(d.tw??'')}" placeholder="same as flange"> <small>mm</small><div class="hint">The T-joint is scanned from the flange face the web stands on, with the probe beside the web. Leave empty to use the flange thickness.</div></div></div><div id="tfbox" style="${pr==='TF'?'':'display:none'}">
  <div class="grid" style="margin-top:10px"><div class="f"><label for="f_tb">Base plate thickness</label><input id="f_tb" data-k="tb" inputmode="decimal" autocomplete="off" value="${esc(d.tb??'')}" placeholder="same as flange"> <small>mm</small></div><div class="f"><label for="f_tfl">Fillet size</label><input id="f_tfl" data-k="tfl" inputmode="decimal" autocomplete="off" value="${esc(d.tfl??'')}" placeholder="auto"> <small>mm</small></div></div>
  <div class="hint">Weld thickness above is the flange you scan. Example: base plate 50, flange 30.</div>
@@ -2561,13 +2584,13 @@ function completeDraft(){const d=draft;if(!d)return false;if(d.code==='asme')ret
 function commitDraft(){const d=draft;let rec;
  if(d.code==='asme'){const r=dacRate(d);rec={...d,id:'r'+Date.now(),ts:Date.now(),code:'asme',cls:'V',d:0,reject:r.reject,limSnap:resolveAsme(d).snap};['amp','len','thick'].forEach(k=>rec[k]=+rec[k]||0);['path','depth','angle'].forEach(k=>rec[k]=num(rec[k]));rec.skip=num(rec.skip);delete rec.pathAuto;delete rec.skipAuto;delete rec.depthAuto}
  else{const r=rate(d);rec={...d,id:'r'+Date.now(),ts:Date.now(),d:r.d,cls:r.cls,reject:r.reject,limSnap:resolveAws(d).snap};['gain','refGainDb','path','hvd','len','angle','thick'].forEach(k=>rec[k]=num(rec[k]))}
- const eid=d.editId;if(eid){const old=S.readings.find(x=>x.id===eid);rec.id=eid;if(old){rec.ts=old.ts;rec.n=old.n}delete rec.editId}
+ const eid=d.editId;if(eid){const old=S.readings.find(x=>x.id===eid);rec.id=eid;if(old){rec.ts=old.ts;rec.n=old.n}delete rec.editId}delete rec.origAngle;
  const ph=rec.photo,did=d.id;delete rec.photo;delete rec.at;if(ph||d.hasPhoto){rec.hasPhoto=true;(ph?Promise.resolve(ph):pget(did)).then(p=>p?pput(rec.id,p):null).catch(()=>{}).then(()=>did&&tx('readwrite',s=>s.delete(did)).catch(()=>{}))}
  {const i=eid?S.readings.findIndex(x=>x.id===eid):-1;if(i>=0)S.readings[i]=rec;else S.readings.push(rec)}S.drafts=S.drafts.filter(x=>x.id!==did);draft=null;clearTimeout(kdT);save();return rec}
 function exitSheet(proceed){keepDraft(true);const ok=completeDraft();
  const d=sheet(`<h1 style="font-size:22px">Leave this indication?</h1><p class="sub">Indication ${draft.n} · ${esc(draft.weld)} is not saved yet.</p>${ok?'<button class="btn pri" id="x_save">Save indication</button>':''}<button class="btn${ok?'':' pri'}" id="x_keep">Keep as draft</button><button class="btn" id="x_disc" style="color:var(--rej)">Discard indication</button><button class="btn" id="x_stay">Keep editing</button>`);
  const q=id=>d.querySelector('#'+id);
- if(ok)q('x_save').onclick=()=>{commitDraft();d.remove();proceed()};
+ if(ok)q('x_save').onclick=()=>{if(angleGuard()){d.remove();return}commitDraft();d.remove();proceed()};
  q('x_keep').onclick=()=>{keepDraft(true);d.remove();proceed()};
  q('x_disc').onclick=()=>{const id=draft.id;draft=null;clearTimeout(kdT);dropDraft(id);d.remove();proceed()};
  q('x_stay').onclick=()=>d.remove()}
@@ -2587,8 +2610,19 @@ function actSheet(code){let title,sub,lab,fn;
  else{const[j,w]=code.slice(2).split('|'),n=S.readings.filter(r=>jk(r)===j&&r.weld===w).length;title=esc(w);sub=`${esc(jname(j))} · ${n} indication${n===1?'':'s'}`;lab='Edit weld';fn=()=>editWeldSheet(j,w)}
  const d=sheet(`<h1 style="font-size:22px">${title}</h1><p class="sub">${sub}</p><button class="btn pri" id="a_ed">${lab}</button>${code.startsWith('r:')?'<button class="btn" id="a_dt">Edit date and time</button>':''}<button class="btn danger" id="a_del">Delete</button><button class="btn" id="a_x">Cancel</button>`);
  d.querySelector('#a_x').onclick=()=>d.remove();{const b=d.querySelector('#a_dt');if(b)b.onclick=()=>{d.remove();dtSheet(code.slice(2))}}d.querySelector('#a_ed').onclick=()=>{d.remove();fn()};d.querySelector('#a_del').onclick=()=>{d.remove();delSheet(code)}}
+// Readings belong to the probe angle they were taken at. Changing the angle of a saved indication must not re-rate the old numbers.
+function angleGuard(){const d=draft;if(!d||d.origAngle==null||d.origAngle==='')return false;
+ const a=num(d.angle),o=num(d.origAngle);if(!(a>0)||!(o>0)||a===o)return false;
+ const keys=DKEYS.concat(['refGainDb']);
+ if(!keys.some(k=>String(d[k]==null?'':d[k]).trim()!=='')){d.origAngle=d.angle;return false}
+ if(document.querySelector('.sheet.angw'))return true;
+ const sh=sheet(`<h1 style="font-size:22px">Angle changed from ${o}° to ${a}°</h1><p class="sub">The readings on this indication were taken with the ${o}° probe. They cannot be rated at ${a}°. Clear them and enter the readings you measured with the ${a}° probe.</p><div class="note">Cleared: gain, reference gain, amplitude, depth, sound path, skip distance, height and length. Kept: the weld, flaw type, position along the weld, loading and thickness.</div><button class="btn pri" id="ag_ok">Clear and enter ${a}° readings</button><button class="btn" id="ag_x">Keep ${o}°</button>`);
+ sh.classList.add('angw');
+ sh.querySelector('#ag_ok').onclick=()=>{keys.forEach(k=>{d[k]=''});['depth','path','skip'].forEach(k=>{delete d[k+'Auto']});d.origAngle=a;sh.remove();keepDraft(true);render()};
+ sh.querySelector('#ag_x').onclick=()=>{d.angle=d.origAngle;sh.remove();render()};
+ return true}
 async function editReading(id){const r=S.readings.find(x=>x.id===id);if(!r)return;if(draft&&draftDirty())keepDraft(true);
- draft={...r,id:'d'+Date.now()+Math.floor(Math.random()*90+10),at:Date.now(),editId:r.id,ftype:r.ftype||'Unsure'};delete draft.photo;delete draft.cls;delete draft.reject;delete draft.d;delete draft.limSnap;
+ draft={...r,id:'d'+Date.now()+Math.floor(Math.random()*90+10),at:Date.now(),editId:r.id,origAngle:r.angle,ftype:r.ftype||'Unsure'};delete draft.photo;delete draft.cls;delete draft.reject;delete draft.d;delete draft.limSnap;
  if(r.hasPhoto){try{const p=await pget(r.id);if(p)draft.photo=p}catch(e){}}
  go(r.code==='asme'?'dacin':'inputs')}
 function moveJob(j,np){const jn=jname(j),nk=jkey(np,jn);if(nk===j)return null;const jl=wlow(j),mine=x=>wlow(jkey(x.project||'',x.job))===jl;
@@ -2610,7 +2644,7 @@ function assignJobSheet(j){const jn=jname(j),pj=jproj(j),ps=projList().map(o=>o.
  const d=sheet(`<h1 style="font-size:22px">${pj?'Change project':'Assign to a project'}</h1><p class="sub"><b>${esc(jn)}</b> ${pj?'is in <b>'+esc(pj)+'</b>':'has no project'}. Its welds, indications, repairs and reports move with it.</p>${ps.length?`<div class="grp">${ps.map(n=>`<button type="button" class="li" data-pn="${esc(n)}"><div class="grow"><b>${esc(n)}</b></div></button>`).join('')}</div>`:''}<div class="f" style="margin:12px 0 8px"><label>${ps.length?'Or a new project':'Project name'}</label><input id="as_p" placeholder="Refinery unit 4" autocomplete="off"></div><button class="btn pri" id="as_ok">Save</button>${pj?'<button class="btn" id="as_rm">Remove from project</button>':''}<button class="btn" id="as_x">Cancel</button>`);
  const done=np=>{const u=moveJob(j,np);if(u){save();d.remove();render();toast(`${u.jn} moved to ${np||'Unassigned'}`,{label:'Undo',fn:()=>undoMove(u)})}};
  d.querySelector('#as_x').onclick=()=>d.remove();d.querySelectorAll('[data-pn]').forEach(b=>b.onclick=()=>done(b.dataset.pn));
- d.querySelector('#as_ok').onclick=()=>{if(!calGate())return;const v=d.querySelector('#as_p').value.trim();if(!v){d.querySelector('#as_p').focus();return}done(v)};
+ d.querySelector('#as_ok').onclick=()=>{const v=d.querySelector('#as_p').value.trim();if(!v){d.querySelector('#as_p').focus();return}if(!calGate(()=>done(v)))return;done(v)};
  const rm=d.querySelector('#as_rm');if(rm)rm.onclick=()=>done('')}
 function editWeldSheet(j,w){const n=S.readings.filter(r=>jk(r)===j&&r.weld===w).length,jn=jname(j),pj=jproj(j);
  const d=sheet(`<h1 style="font-size:22px">Edit weld</h1><p class="sub">Change the project, job or weld ID. ${n} indication${n===1?'':'s'} move with it.</p><div class="f" style="margin-bottom:8px"><label>Project</label><input id="ew_p" value="${esc(pj)}" placeholder="No project" autocomplete="off"></div><div class="f" style="margin-bottom:8px"><label>Job</label><input id="ew_j" value="${esc(jn)}" autocomplete="off"></div><div class="f"><label>Weld ID</label><input id="ew_w" value="${esc(w)}" autocomplete="off"></div><button class="btn pri" id="ew_ok">Save changes</button><button class="btn" id="ew_x">Cancel</button>`);
@@ -2667,7 +2701,7 @@ function installSheet(){
  d.querySelector('#i_chk').onclick=async()=>{const o=d.querySelector('#i_out');o.textContent='Checking...';const r=await installCheck();o.innerHTML=r.map(([l,ok,h])=>`<div class="card"><b>${ok?'✓':'✗'} ${esc(l)}</b>${ok?'':`<div class="sub">${esc(h)}</div>`}</div>`).join('')}}
 // ---------- events added in this version ----------
 function wire5(){const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
- const startNew=()=>{if(!calGate())return;if(draft&&draftDirty())inProgressSheet(()=>go('new'));else go('new')};
+ const startNew=()=>{const nx=()=>{if(draft&&draftDirty())inProgressSheet(()=>go('new'));else go('new')};if(!calGate(nx))return;nx()};
  on('new',startNew);
  on('tback',backupSheet);on('tinst',installSheet);on('instbtn',installSheet);on('tlim',()=>tab('limits'));
  document.querySelectorAll('[data-golim]').forEach(b=>b.onclick=()=>go('limits'));
@@ -2685,8 +2719,8 @@ function wire5(){const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
  const begin=(j,w,p)=>{const nx=()=>{startDraft(j,w,p);go(S.rules==='asme'?'dacin':'inputs')};if(draft&&draftDirty())inProgressSheet(nx);else nx()};
  on('type',()=>{const j=$('job').value.trim(),w=$('weld').value.trim();if(!j||!w){(j?$('weld'):$('job')).focus();return}S.ctx={job:j,weld:w};save();begin(j,w,S.proj||'')});
  on('add',()=>{const[k,w]=route[1].split('|');begin(jname(k),w,jproj(k))});
- on('sv',()=>{const rec=commitDraft();hist=[];route=['saved',rec.id];render()});
- on('svd',()=>{const rec=commitDraft();hist=[];route=['saved',rec.id];render()});
+ on('sv',()=>{if(angleGuard())return;const rec=commitDraft();hist=[];route=['saved',rec.id];render()});
+ on('svd',()=>{if(angleGuard())return;const rec=commitDraft();hist=[];route=['saved',rec.id];render()});
  on('delr',()=>delSheet('r:'+route[1]));on('dtedit',()=>dtSheet(route[1]));
  on('edr',()=>editReading(route[1]));on('clrp',clearSheet);
  on('clrn',()=>{$('job').value='';$('weld').value='';S.ctx={job:'',weld:''};save();$('wchips').innerHTML='';$('job').focus()});
@@ -2763,20 +2797,45 @@ document.addEventListener('visibilitychange',()=>{
 // ---------- calibration gate: warn on open, and no new projects until calibrated ----------
 // "Calibrated" = instrument, transducer, reference block and reference level entered under Calibration,
 // the acceptance tables for the active code verified, and (ASME) a DAC curve of at least 2 points.
-function calMissing(){const t=x=>String(x==null?'':x).trim(),m=[];
- if(!t(S.inst))m.push('Instrument');if(!t(S.freq))m.push('Transducer');if(!t(S.rblock))m.push('Reference block');if(!t(S.rfsh))m.push('Reference level');
- if(!t(S.inspector))m.push('Inspector name');if(!t(S.client))m.push('Client');
- const code=(S.rules||'aws')==='asme'?'asme':'aws';
- if(code==='asme'&&dacPts().length<2)m.push('DAC curve (at least 2 points)');
- try{if(!verInfo(code,null).ok)m.push('Acceptance tables verified against the code')}catch(e){}
- return m}
-function calWarn(){const m=calMissing();if(!m.length||document.querySelector('.sheet.calwarn'))return false;
- const d=sheet(`<h1 style="font-size:24px">Not calibrated</h1><p class="sub">Calibrate the app and enter the inspector and client details before you create projects or rely on a verdict. Still missing:</p><ul style="margin:8px 0 14px 18px">${m.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><button class="btn pri" id="cw_go">Open Calibration</button><button class="btn" id="cw_x">Not now</button>`);
- d.classList.add('calwarn');d.querySelector('#cw_go').onclick=()=>{d.remove();tab('limits')};d.querySelector('#cw_x').onclick=()=>d.remove();return true}
-const calGate=()=>calMissing().length?(calWarn(),false):true;
-const calBanner=()=>{const m=calMissing();return m.length?`<div class="card" style="background:var(--pri);color:var(--priink);margin-bottom:10px"><b>NOT CALIBRATED</b><div style="font-size:13px;margin:2px 0 8px">Missing: ${esc(m.join(', '))}. Projects cannot be created until this is done.</div><button class="btn" data-golim>Open Calibration</button></div>`:''};
-window.addEventListener('load',()=>setTimeout(calWarn,700));
-{let calHid=0;document.addEventListener('visibilitychange',()=>{if(document.hidden){calHid=Date.now();return}if(calHid&&Date.now()-calHid>RESUME_HOME_MS)setTimeout(calWarn,400);calHid=0})}
+function calItems(){const t=x=>String(x==null?'':x).trim(),code=(S.rules||'aws')==='asme'?'asme':'aws',it=[],
+ add=(label,ok,val,dest,act,key)=>it.push({label,ok:!!ok,val:val||'',dest,act:act||'Add',key:key||''});
+ add('Instrument',t(S.inst),t(S.inst),'cal','Add','inst');add('Transducer',t(S.freq),t(S.freq),'cal','Add','freq');add('Reference block',t(S.rblock),t(S.rblock),'cal','Add','rblock');
+ add('Reference level',t(S.rfsh),/^[\d.]+$/.test(t(S.rfsh))?t(S.rfsh)+'% FSH':t(S.rfsh),'cal','Add','rfsh');
+ if(code==='asme'){const n=dacPts().length;add('DAC curve (at least 2 points)',n>=2,n+' points','cal','Set up')}
+ let ver=true;try{ver=!!verInfo(code,null).ok}catch(e){}
+ add('Acceptance tables',ver,'Verified','cal','Review');
+ add('Inspector name',t(S.inspector),t(S.inspector),'rep','Add','inspector');add('Client',t(S.client),t(S.client),'rep','Add','client');
+ return it}
+function calMissing(){return calItems().filter(x=>!x.ok).map(x=>x.label)}
+// Take the person to the place that fixes the item: equipment and tables are in Calibration, inspector and client in Report details.
+function calGo(dest){document.querySelectorAll('.sheet.calwarn').forEach(x=>x.remove());
+ if(dest==='rep'){const f=()=>{hist=[];route=['reports'];RD=null;go('repdet')};if(FLOW.includes(route[0])&&draftDirty())return exitSheet(f);f()}
+ else tab('limits')}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-calgo]');if(b)calGo(b.dataset.calgo);const f=e.target.closest&&e.target.closest('[data-calform]');if(f)calWarn()});
+const CW_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 16a8 8 0 1 1 15 0"/><path d="M12 14l3.2-4.2"/><circle cx="12" cy="14" r="1.2"/><path d="M5 19.5h14"/></svg>',
+ CW_TICK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+// Setup form inside the popup: six plain text fields saved in place. Only items that need another screen (DAC curve, acceptance tables) stay as tappable rows.
+const CW_FIELDS=[['inst','Instrument','Make and model','words'],['freq','Transducer','e.g. 2.25 MHz, 70°','off'],['rblock','Reference block','e.g. IIW V1','off'],['rfsh','Reference level','80 (% of full screen height)','off'],['inspector','Inspector','Name printed on reports','words'],['client','Client','Who the reports are for','words']];
+function calWarn(next){if(document.querySelector('.sheet.calwarn'))return false;
+ const keys=CW_FIELDS.map(f=>f[0]),paint=()=>{const it=calItems(),miss=it.filter(x=>!x.ok);
+  if(!miss.length){d.remove();return}
+  const other=it.filter(x=>!x.key),otherOk=other.filter(x=>x.ok).length,total=it.length;
+  d.firstElementChild.innerHTML=`<div class="cw-head"><span class="cw-ic">${CW_ICON}</span><div><h1>Set up before you start</h1><p class="sub">Fill these in once. They are printed on your reports.</p></div></div>
+  <div class="cw-prog" role="img" aria-label="" id="cw_prog"><div class="cw-bar">${it.map(()=>'<i></i>').join('')}</div><span id="cw_cnt"></span></div>
+  <div class="grp idc" style="margin-top:12px">${CW_FIELDS.map(([k,l,ph,ac])=>`<div class="fld"><label for="cw_${k}">${l}</label><input id="cw_${k}" data-cwf="${k}" value="${esc(String(S[k]==null?'':S[k]))}" placeholder="${ph}" autocomplete="off" autocapitalize="${ac==='words'?'words':'off'}" enterkeyhint="${k===keys[keys.length-1]?'done':'next'}"></div>`).join('')}</div>
+    <div class="cw-act"><button class="btn pri" id="cw_save">Save</button><button class="btn" id="cw_x">Not now</button></div>`;
+  const ins=[...d.querySelectorAll('[data-cwf]')],upd=()=>{const n=ins.filter(i=>i.value.trim()).length+otherOk;d.querySelectorAll('.cw-bar i').forEach((b,i)=>b.classList.toggle('on',i<n));d.querySelector('#cw_cnt').textContent=n+' of '+total+' done';const rest=other.some(x=>!x.ok)&&ins.every(i=>i.value.trim());d.querySelector('#cw_save').textContent=rest?'Save and open Calibration':'Save';d.querySelector('#cw_prog').setAttribute('aria-label',n+' of '+total+' done')};
+  upd();
+  const doSave=()=>{ins.forEach(i=>{S[i.dataset.cwf]=i.value.trim()});save();
+   if(!calMissing().length){d.remove();toast('Setup saved');if(next)next();else keepRender();return}
+   if(!calItems().some(x=>x.key&&!x.ok)){d.remove();keepRender();calGo('cal');return}
+   toast('Saved');paint();keepRender()};
+  ins.forEach((i,ix)=>{i.oninput=upd;i.onkeydown=e=>{if(e.key!=='Enter')return;e.preventDefault();if(ix<ins.length-1)ins[ix+1].focus();else doSave()}});
+  d.querySelector('#cw_save').onclick=doSave;d.querySelector('#cw_x').onclick=()=>d.remove()},
+ d=sheet('<div></div>');d.classList.add('calwarn');paint();return true}
+const calGate=next=>calMissing().length?(calWarn(next),false):true;
+const calBanner=()=>{const it=calItems(),m=it.filter(x=>!x.ok);if(!m.length)return '';const done=it.length-m.length,first=m[0];
+ return `<div class="cw-ban"><div class="cw-bh"><span class="cw-ic sm">${CW_ICON}</span><div class="grow"><b>Not calibrated yet</b><div class="cw-bs">${done} of ${it.length} done. Missing: ${esc(m.map(x=>x.label).join(', '))}.</div></div></div><div class="cw-bar">${it.map((x,i)=>`<i class="${i<done?'on':''}"></i>`).join('')}</div><button class="btn" data-calform>Complete setup</button></div>`};
 // ---------- update prompt ----------
 // The service worker already fetches the newest files on every launch. This tells the person when the copy they are
 // running is older than the one on the server, and lets them restart into it with one tap.
