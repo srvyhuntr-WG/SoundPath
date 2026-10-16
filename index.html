@@ -834,7 +834,7 @@ function home(){
  S.proj='';
  const hero=`<h1 class="jh">New project</h1><p class="jsub">Start a project, then add its jobs, welds and indications.</p><div class="acts" style="margin-top:12px"><button class="sc-new" id="newproj"><span class="pl">${ico(IC.plus)}</span><span class="grow"><b>Start project</b><span class="sub">Name it, then pick the job and weld</span></span></button>${photo}</div>`;
  const htop=`<div class="top noprint htop"><div class="hbrand"><div class="hcol"><div class="hlock"><button class="bhome" data-home aria-label="SoundPath, go to home">${LOGO}</button><button class="bhome" data-home aria-label="SoundPath, go to home"><span class="wm">SoundPath</span></button></div><div class="rchip st" role="status" aria-label="Rating to ${CS[S.rules||'aws']}"><span class="ocell">${ORB}</span><span class="rl">Rating to</span><b>${CS[S.rules||'aws']}</b></div></div></div>${THM}</div>`;
- const tools=`<div class="tools">${tool('tback',IC.backup,'Backup',due?'Due: '+ago(S.lastBackup).toLowerCase():ago(S.lastBackup),due)}${isStandalone()?tool('tlim',NAVI.limits,'Calibration','AWS · ASME'):tool('tinst',IC.install,'Install app','To home screen')}</div>`;
+ const tools=calBanner()+`<div class="tools">${tool('tback',IC.backup,'Backup',due?'Due: '+ago(S.lastBackup).toLowerCase():ago(S.lastBackup),due)}${isStandalone()?tool('tlim',NAVI.limits,'Calibration','AWS · ASME'):tool('tinst',IC.install,'Install app','To home screen')}</div>`;
  const nInd=S.readings.length,nRej=projList().reduce((a,o)=>a+o.bad,0),allTile=`<button type="button" class="rtile all" id="seeall2"><span class="rth"><span class="rti"><svg viewBox="0 0 24 24" aria-hidden="true">${NAVI.reports}</svg></span>${nRej?`<span class="tag r">${nRej} reject</span>`:`<span class="tag a">OK</span>`}</span><b>All projects</b><span class="rtm"><span class="sub">${pl0(n,'project')}</span><span class="sub">${pl0(nInd,'indication')} · Open list</span></span></button>`;
  const hint=S.drafts.length?'Tap a draft to enter its values. Press and hold a draft or indication for more options.':(n?'Tap a project to open its jobs, welds and indications.':'');
  return htop+hero+draftsHTML()
@@ -1009,7 +1009,7 @@ function repDetCard(){const nm=(S.inspector||'').trim(),cl=(S.client||'').trim()
 function reportsInd(){
   LASTP=null;
   const m=weldsByJob(),jobs=Object.keys(m);
-  if(!jobs.length)return `<h1>Reports</h1><p class="sub">Jobs, welds and indications</p>${repDetCard()}<div class="rempty"><svg viewBox="0 0 24 24" aria-hidden="true">${NAVI.reports}</svg><b>No indications yet</b><span>Saved indications are grouped here by job and weld.</span></div><button class="btn pri" id="new">New indication</button>`;
+  if(!jobs.length)return `<h1>Reports</h1><p class="sub">Jobs, welds and indications</p>${calBanner()}${repDetCard()}<div class="rempty"><svg viewBox="0 0 24 24" aria-hidden="true">${NAVI.reports}</svg><b>No indications yet</b><span>Saved indications are grouped here by job and weld.</span></div><button class="btn pri" id="new">New indication</button>`;
   const pl=(n,w)=>`${n} ${w}${n===1?'':'s'}`,lastOf=rs=>Math.max(...rs.map(r=>r.ts));
   const jr=jobs.filter(j=>Object.values(m[j]).some(r=>wbad(r))).length;
   if(RF==='rej'&&!jr)RF='all';
@@ -1019,7 +1019,7 @@ function reportsInd(){
    wOk=(j,w)=>toks.every(t=>hay(j,w).includes(t)),
    noMatch=toks.length&&!jobs.some(j=>Object.keys(m[j]).some(w=>wOk(j,w)))?`<div class="note">No match for <b>${esc(RQ.trim())}</b>. Try a job, weld, project, flaw type, or the word reject or accept.</div>`:'',
    srch=`<input type="search" id="rq" class="rsrch" placeholder="Search job, weld, project, flaw type" aria-label="Search reports" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" value="${esc(RQ)}">`;
-  return `<h1>Reports</h1><p class="sub">Projects, jobs, welds and indications. Press and hold a weld or indication to edit its details, date and time, or delete it.</p>${repDetCard()}${moveNote()}${srch}${filt}${RP?`<div class="note">Project <b>${esc(pdisp(RP))}</b>. <button class="back sm" id="allproj" style="padding:0">All projects</button> · <button class="back sm" id="addjob" style="padding:0">Add job</button></div>`:''}`
+  return `<h1>Reports</h1><p class="sub">Projects, jobs, welds and indications. Press and hold a weld or indication to edit its details, date and time, or delete it.</p>${calBanner()}${repDetCard()}${moveNote()}${srch}${filt}${RP?`<div class="note">Project <b>${esc(pdisp(RP))}</b>. <button class="back sm" id="allproj" style="padding:0">All projects</button> · <button class="back sm" id="addjob" style="padding:0">Add job</button></div>`:''}`
   +jobs.filter(j=>Object.keys(m[j]).some(w=>wOk(j,w)&&(RF==='all'||wbad(m[j][w])))&&(!RP||projName(Object.values(m[j])[0][0])===RP)).sort((a,b)=>projName(Object.values(m[a])[0][0]).localeCompare(projName(Object.values(m[b])[0][0]))||lastOf(Object.values(m[b]).flat())-lastOf(Object.values(m[a]).flat())).map(j=>{
     const pj=projName(Object.values(m[j])[0][0]),head=pj!==LASTP?(LASTP=pj,`<div class="sechd" style="margin:24px 2px 8px"><h2 style="margin:0">${esc(pdisp(pj))}</h2><button type="button" class="chip" data-phd="${esc(pj)}">${pj==='No project'?'Add project name':'Rename'}</button></div>`):'';
     const ws=Object.keys(m[j]).sort((a,b)=>lastOf(m[j][b])-lastOf(m[j][a])),rs=ws.flatMap(w=>m[j][w]),cs=ws.map(w=>weldStatus(m[j][w]).code),jb=cs.filter(c=>c==='reject'||c==='next').length,jw=cs.filter(c=>c==='await').length,jp=cs.filter(c=>c==='repaired').length,shown=(RF==='rej'?ws.filter(w=>wbad(m[j][w])):ws).filter(w=>wOk(j,w));
@@ -1031,16 +1031,16 @@ function reportsInd(){
 function phdSheet(pj){const un=pj==='No project',from=un?'':pj,jobs=Object.keys(weldsByJob()).filter(j=>jproj(j)===from),ps=projList().map(o=>o.name).filter(n=>n!=='No project'&&n!==pj);
  const d=sheet(`<h1 style="font-size:22px">${un?'Add a project name':'Rename project'}</h1><p class="sub">${un?'The unassigned':'<b>'+esc(pj)+'</b>'} ${jobs.length===1?'job':jobs.length+' jobs'} will ${un?'be put in':'move to'} the name you choose. Welds, indications, repairs and reports go with them.</p>${un&&ps.length?`<div class="grp">${ps.map(n=>`<button type="button" class="li" data-pn="${esc(n)}"><div class="grow"><b>${esc(n)}</b></div></button>`).join('')}</div>`:''}<div class="f" style="margin:12px 0 8px"><label>${un&&ps.length?'Or a new project':'Project name'}</label><input id="ph_p" value="${esc(from)}" placeholder="Refinery unit 4" autocomplete="off"></div><button class="btn pri" id="ph_ok">Save</button><button class="btn" id="ph_x">Cancel</button>`);
  const done=np=>{np=(np||'').trim();if(!np||np===from)return d.remove();const us=[];jobs.forEach(j=>{const u=moveJob(j,np);if(u)us.push(u)});if(!us.length)return;if(RP===pj)RP=np;save();d.remove();render();toast(`${us.length===1?us[0].jn:us.length+' jobs'} moved to ${np}`,{label:'Undo',fn:()=>{us.slice().reverse().forEach(u=>undoMove(u));RP=from}})};
- d.querySelector('#ph_x').onclick=()=>d.remove();d.querySelectorAll('[data-pn]').forEach(b=>b.onclick=()=>done(b.dataset.pn));d.querySelector('#ph_ok').onclick=()=>done(d.querySelector('#ph_p').value);
- const i=d.querySelector('#ph_p');if(i){i.onkeydown=e=>{if(e.key==='Enter')done(i.value)};setTimeout(()=>{try{i.focus();i.select()}catch(e){}},50)}}
+ d.querySelector('#ph_x').onclick=()=>d.remove();d.querySelectorAll('[data-pn]').forEach(b=>b.onclick=()=>done(b.dataset.pn));d.querySelector('#ph_ok').onclick=()=>{if(un&&!calGate())return;done(d.querySelector('#ph_p').value)};
+ const i=d.querySelector('#ph_p');if(i){i.onkeydown=e=>{if(e.key==='Enter'){if(un&&!calGate())return;done(i.value)}};setTimeout(()=>{try{i.focus();i.select()}catch(e){}},50)}}
 function wire8(){const on=(i,f)=>{const e=$(i);if(e)e.onclick=f};
  document.querySelectorAll('[data-phd]').forEach(b=>b.onclick=()=>phdSheet(b.dataset.phd));
- on('rdopen',()=>{RD=null;go('repdet')});wireRD();
- on('newproj',()=>{S.proj='';S.ctx={job:'',weld:''};save();NEWPROJ=true;go('new')});
+ on('rdopen',()=>{RD=null;go('repdet')});on('cdopen',()=>{RD=null;go('repdet')});wireRD();
+ on('newproj',()=>{if(!calGate())return;S.proj='';S.ctx={job:'',weld:''};save();NEWPROJ=true;go('new')});
  if($('proj')&&NEWPROJ){NEWPROJ=false;try{$('proj').focus()}catch(e){}}
  if($('proj'))$('proj').oninput=e=>{S.proj=e.target.value.trim();save();if($('jobs'))$('jobs').innerHTML=jobNames().map(j=>`<option value="${esc(j)}">`).join('');if($('wchips')&&$('job')){$('wchips').innerHTML=wchips($('job').value.trim());bindChips()}};
  document.querySelectorAll('[data-proj]').forEach(b=>b.onclick=()=>{RP=b.dataset.proj;tab('reports')});
- on('seeall2',()=>{RP='';tab('reports')});on('allproj',()=>{RP='';render()});on('addjob',()=>{S.proj=RP==='No project'?'':RP;S.ctx={job:'',weld:''};save();go('new')})}
+ on('seeall2',()=>{RP='';tab('reports')});on('allproj',()=>{RP='';render()});on('addjob',()=>{if(!calGate())return;S.proj=RP==='No project'?'':RP;S.ctx={job:'',weld:''};save();go('new')})}
 function wire7(){{const q=$('rq');if(q){q.oninput=()=>{clearTimeout(RQT);RQT=setTimeout(()=>{const c=q.selectionStart;RQ=q.value;keepRender();const n=$('rq');if(n){n.focus();try{n.setSelectionRange(c,c)}catch(e){}}},150)};q.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();q.blur()}}}}
  if(route[0]==='weld'){const k=route[1],mm=()=>(S.weldMeta[k]=S.weldMeta[k]||{}),sv=()=>{save();keepRender()};
   if($('wm_len'))$('wm_len').onchange=e=>{mm().len=norm(e.target.value);sv()};if($('wm_s'))$('wm_s').onchange=e=>{mm().s=e.target.checked;sv()};if($('wm_e'))$('wm_e').onchange=e=>{mm().e=e.target.checked;sv()}}
@@ -1078,6 +1078,7 @@ function limits(){
  return `<h1>Calibration</h1><p class="sub">The only place calibration settings are changed: the code you rate to, equipment, DAC curve and the acceptance tables.</p>
  <div class="shd"><h2>Rating to</h2><span>Tap a code to change it</span></div><div class="grp">${cp('aws','AWS D1.1 · 2020','Structural steel. Class A to D rating.')}${cp('asme','ASME VIII-1 · 2019','Pressure vessels. DAC amplitude and length.')}<div class="li" aria-disabled="true" style="opacity:.55;cursor:default"><div class="grow"><b>More codes</b><div class="sub">${SOON_CODES.map(c=>c[0]).join(' · ')}</div></div><span class="tag" style="white-space:nowrap">Coming soon</span></div><button class="li" id="tgl" role="switch" aria-checked="${!!S.codeDefault}"><div class="grow"><b>Always use this code</b><div class="sub">${S.codeDefault?'Opens straight into '+CODES[cur]:'Asked each time you open the app'}</div></div><span class="sw ${S.codeDefault?'on':''}"></span></button></div>
  ${equipSection()}
+ <h2>Inspector and client</h2><div class="grp"><button class="li" id="cdopen" type="button"><div class="grow"><b>Report details</b><div class="sub">${esc([(S.inspector||'').trim()?'Inspector: '+S.inspector.trim():'Inspector not set',(S.client||'').trim()?'Client: '+S.client.trim():'Client not set'].join(' · '))}</div></div><span class="tag ${(S.inspector||'').trim()&&(S.client||'').trim()?'a':''}">${(S.inspector||'').trim()&&(S.client||'').trim()?'Set':'Add'}</span><i class="lch"></i></button></div>
  <h2>DAC curve</h2><div class="card row"><div class="grow"><b>Reference curve</b><div class="sub">${dacPts().length>=2?dacPts().length+' points saved':'Not set up yet'}</div></div><button class="back" id="edac" style="padding:0">${dacPts().length>=2?'Edit':'Set up'}</button></div>${dacPts().length>=2?`<div class="card chart"><div class="sub" style="margin:0 0 6px;font-weight:650">Current curve${S.dac&&S.dac.angle?' · '+esc(String(S.dac.angle))+'° probe':''}</div>${dacPreview()}</div>`:''}
  <h2>AWS D1.1/D1.1M · 2020 ${(S.rules||'aws')==='aws'?'<span class="tag a">Active</span>':''}</h2>
  <div class="card"><div class="row"><div class="grow"><b>Tables 8.2 and 8.3</b><div class="sub">8.2: static, and cyclic in compression<br>8.3: cyclic in tension<br>${ns} + ${nc} rows</div></div>${tag(vA.ok,!pA)}</div>
@@ -2609,7 +2610,7 @@ function assignJobSheet(j){const jn=jname(j),pj=jproj(j),ps=projList().map(o=>o.
  const d=sheet(`<h1 style="font-size:22px">${pj?'Change project':'Assign to a project'}</h1><p class="sub"><b>${esc(jn)}</b> ${pj?'is in <b>'+esc(pj)+'</b>':'has no project'}. Its welds, indications, repairs and reports move with it.</p>${ps.length?`<div class="grp">${ps.map(n=>`<button type="button" class="li" data-pn="${esc(n)}"><div class="grow"><b>${esc(n)}</b></div></button>`).join('')}</div>`:''}<div class="f" style="margin:12px 0 8px"><label>${ps.length?'Or a new project':'Project name'}</label><input id="as_p" placeholder="Refinery unit 4" autocomplete="off"></div><button class="btn pri" id="as_ok">Save</button>${pj?'<button class="btn" id="as_rm">Remove from project</button>':''}<button class="btn" id="as_x">Cancel</button>`);
  const done=np=>{const u=moveJob(j,np);if(u){save();d.remove();render();toast(`${u.jn} moved to ${np||'Unassigned'}`,{label:'Undo',fn:()=>undoMove(u)})}};
  d.querySelector('#as_x').onclick=()=>d.remove();d.querySelectorAll('[data-pn]').forEach(b=>b.onclick=()=>done(b.dataset.pn));
- d.querySelector('#as_ok').onclick=()=>{const v=d.querySelector('#as_p').value.trim();if(!v){d.querySelector('#as_p').focus();return}done(v)};
+ d.querySelector('#as_ok').onclick=()=>{if(!calGate())return;const v=d.querySelector('#as_p').value.trim();if(!v){d.querySelector('#as_p').focus();return}done(v)};
  const rm=d.querySelector('#as_rm');if(rm)rm.onclick=()=>done('')}
 function editWeldSheet(j,w){const n=S.readings.filter(r=>jk(r)===j&&r.weld===w).length,jn=jname(j),pj=jproj(j);
  const d=sheet(`<h1 style="font-size:22px">Edit weld</h1><p class="sub">Change the project, job or weld ID. ${n} indication${n===1?'':'s'} move with it.</p><div class="f" style="margin-bottom:8px"><label>Project</label><input id="ew_p" value="${esc(pj)}" placeholder="No project" autocomplete="off"></div><div class="f" style="margin-bottom:8px"><label>Job</label><input id="ew_j" value="${esc(jn)}" autocomplete="off"></div><div class="f"><label>Weld ID</label><input id="ew_w" value="${esc(w)}" autocomplete="off"></div><button class="btn pri" id="ew_ok">Save changes</button><button class="btn" id="ew_x">Cancel</button>`);
@@ -2666,7 +2667,7 @@ function installSheet(){
  d.querySelector('#i_chk').onclick=async()=>{const o=d.querySelector('#i_out');o.textContent='Checking...';const r=await installCheck();o.innerHTML=r.map(([l,ok,h])=>`<div class="card"><b>${ok?'✓':'✗'} ${esc(l)}</b>${ok?'':`<div class="sub">${esc(h)}</div>`}</div>`).join('')}}
 // ---------- events added in this version ----------
 function wire5(){const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
- const startNew=()=>{if(draft&&draftDirty())inProgressSheet(()=>go('new'));else go('new')};
+ const startNew=()=>{if(!calGate())return;if(draft&&draftDirty())inProgressSheet(()=>go('new'));else go('new')};
  on('new',startNew);
  on('tback',backupSheet);on('tinst',installSheet);on('instbtn',installSheet);on('tlim',()=>tab('limits'));
  document.querySelectorAll('[data-golim]').forEach(b=>b.onclick=()=>go('limits'));
@@ -2691,7 +2692,7 @@ function wire5(){const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
  on('clrn',()=>{$('job').value='';$('weld').value='';S.ctx={job:'',weld:''};save();$('wchips').innerHTML='';$('job').focus()});
  if($('job')&&$('wchips')){bindChips();$('job').oninput=()=>{$('wchips').innerHTML=wchips($('job').value.trim());bindChips();keepCtxLive()}}
  if($('job')&&$('weld'))$('weld').oninput=keepCtxLive;
- document.querySelectorAll('[data-undomove]').forEach(b=>b.onclick=()=>undoMove());document.querySelectorAll('[data-dismove]').forEach(b=>b.onclick=()=>{delete S.lastMove;save();render()});document.querySelectorAll('[data-prj]').forEach(b=>b.onclick=()=>assignJobSheet(b.dataset.prj));document.querySelectorAll('[data-addweld]').forEach(b=>b.onclick=()=>{S.ctx={job:jname(b.dataset.addweld),weld:''};S.proj=jproj(b.dataset.addweld);save();go('new')});
+ document.querySelectorAll('[data-undomove]').forEach(b=>b.onclick=()=>undoMove());document.querySelectorAll('[data-dismove]').forEach(b=>b.onclick=()=>{delete S.lastMove;save();render()});document.querySelectorAll('[data-prj]').forEach(b=>b.onclick=()=>assignJobSheet(b.dataset.prj));document.querySelectorAll('[data-addweld]').forEach(b=>b.onclick=()=>{if(!calGate())return;S.ctx={job:jname(b.dataset.addweld),weld:''};S.proj=jproj(b.dataset.addweld);save();go('new')});
  document.querySelectorAll('[data-jobpdf]').forEach(b=>b.onclick=()=>go('jobpdf',b.dataset.jobpdf));
  on('awsrestore',()=>{if(confirm('Restore the AWS D1.1:2020 values from the code? Your edits are lost.')){delete T().aws;save();render()}});
  on('asmerestore',()=>{if(confirm('Restore the ASME VIII-1 2019 values from the code? Your edits are lost.')){delete T().asme;save();render()}});
@@ -2759,6 +2760,23 @@ document.addEventListener('visibilitychange',()=>{
  if(holdReset){holdReset=false;return}
  if(away>RESUME_HOME_MS&&route[0]!=='home'){if(draft)keepDraft(true);document.querySelectorAll('.sheet').forEach(x=>x.remove());hist=[];route=['home'];render()}
 });
+// ---------- calibration gate: warn on open, and no new projects until calibrated ----------
+// "Calibrated" = instrument, transducer, reference block and reference level entered under Calibration,
+// the acceptance tables for the active code verified, and (ASME) a DAC curve of at least 2 points.
+function calMissing(){const t=x=>String(x==null?'':x).trim(),m=[];
+ if(!t(S.inst))m.push('Instrument');if(!t(S.freq))m.push('Transducer');if(!t(S.rblock))m.push('Reference block');if(!t(S.rfsh))m.push('Reference level');
+ if(!t(S.inspector))m.push('Inspector name');if(!t(S.client))m.push('Client');
+ const code=(S.rules||'aws')==='asme'?'asme':'aws';
+ if(code==='asme'&&dacPts().length<2)m.push('DAC curve (at least 2 points)');
+ try{if(!verInfo(code,null).ok)m.push('Acceptance tables verified against the code')}catch(e){}
+ return m}
+function calWarn(){const m=calMissing();if(!m.length||document.querySelector('.sheet.calwarn'))return false;
+ const d=sheet(`<h1 style="font-size:24px">Not calibrated</h1><p class="sub">Calibrate the app and enter the inspector and client details before you create projects or rely on a verdict. Still missing:</p><ul style="margin:8px 0 14px 18px">${m.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><button class="btn pri" id="cw_go">Open Calibration</button><button class="btn" id="cw_x">Not now</button>`);
+ d.classList.add('calwarn');d.querySelector('#cw_go').onclick=()=>{d.remove();tab('limits')};d.querySelector('#cw_x').onclick=()=>d.remove();return true}
+const calGate=()=>calMissing().length?(calWarn(),false):true;
+const calBanner=()=>{const m=calMissing();return m.length?`<div class="card" style="background:var(--pri);color:var(--priink);margin-bottom:10px"><b>NOT CALIBRATED</b><div style="font-size:13px;margin:2px 0 8px">Missing: ${esc(m.join(', '))}. Projects cannot be created until this is done.</div><button class="btn" data-golim>Open Calibration</button></div>`:''};
+window.addEventListener('load',()=>setTimeout(calWarn,700));
+{let calHid=0;document.addEventListener('visibilitychange',()=>{if(document.hidden){calHid=Date.now();return}if(calHid&&Date.now()-calHid>RESUME_HOME_MS)setTimeout(calWarn,400);calHid=0})}
 // ---------- update prompt ----------
 // The service worker already fetches the newest files on every launch. This tells the person when the copy they are
 // running is older than the one on the server, and lets them restart into it with one tap.
