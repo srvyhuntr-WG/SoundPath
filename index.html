@@ -3383,7 +3383,8 @@ function xRows(kind){const cl=kind==='clean',F=xFilt(kind),toks=rToks();XG=[];
  F.forEach(r=>{const k=wlow(jkey(r.project||'',r.job));let g=jobs.get(k);if(!g){g={key:jkey(r.project||'',r.job),project:r.project||'',job:r.job,pn:projName(r),rs:[]};jobs.set(k,g)}g.rs.push(r)});
  const lastOf=g=>Math.max(...g.rs.map(r=>r.ts)),st=r=>cl?'a':r.reinsp==='Reject'?'r':r.reinsp==='Accept'?'a':'w';
  let LP=null;
- return [...jobs.values()].sort((a,b)=>a.pn.localeCompare(b.pn)||lastOf(b)-lastOf(a)).map(g=>{
+ const pend=g=>cl?0:g.rs.some(r=>xStat(r)==='wait')?1:0;
+ return [...jobs.values()].sort((a,b)=>a.pn.localeCompare(b.pn)||pend(b)-pend(a)||lastOf(b)-lastOf(a)).map(g=>{
   const head=g.pn!==LP?(LP=g.pn,`<div class="sechd" style="margin:24px 2px 8px"><h2 style="margin:0">${esc(pdisp(g.pn))}</h2><button type="button" class="chip" data-phd="${esc(g.pn)}">${g.pn==='No project'?'Add project name':'Rename'}</button></div>`):'';
   XG.push(g);const gi=XG.length-1,rs=g.rs.slice().sort((a,b)=>(cl?0:({w:0,r:1,a:2}[st(a)]-{w:0,r:1,a:2}[st(b)]))||b.ts-a.ts),
    nb=rs.filter(r=>!cl&&r.reinsp==='Reject').length,nw=rs.filter(r=>!cl&&r.reinsp!=='Accept'&&r.reinsp!=='Reject').length,
@@ -3410,6 +3411,7 @@ function xOpen(kind,id,pre){const L=kind==='clean'?S.clean:S.repairs,f=id&&L.fin
  base=kind==='clean'?{angles:[],sides:'Both sides',full:false,thick:'',proc:'',notes:''}:{no:'',method:'Grind and re-weld',len:'',welder:'',proc:'',links:[],reinsp:'Pending',rts:'',notes:''};
  XF=f?clone(f):Object.assign({id:'',ts:Date.now(),project:pj,job:'',weld:'',code:S.rules||'aws'},base);if(f&&kind==='rep')XF.touch=true;if(pre&&!f)Object.assign(XF,pre);if(!f&&kind==='rep'){XF.no=nextRepNo(XF);XF.noAuto=true}if(!f)XF.rno=nextRno(kind,'');go(kind==='clean'?'cleanform':'repform')}
 const fF=(k,l,ph,t)=>`<div class="fld"><label for="x_${k}">${l}</label><input id="x_${k}" data-xf="${k}" value="${esc(t?toLocalInput(XF[k]):(XF[k]??''))}" placeholder="${ph||''}"${t?` type="${t}"`:''} autocomplete="off"></div>`;
+const fP=(k1,l1,p1,k2,l2,p2)=>`<div class="fld fpair">${[[k1,l1,p1],[k2,l2,p2]].map(([k,l,p])=>`<div><label for="x_${k}">${l}</label><input id="x_${k}" data-xf="${k}" value="${esc(XF[k]??'')}" placeholder="${p||''}" autocomplete="off"></div>`).join('')}</div>`;
 const xSeg=(k,v,l)=>`<button type="button" data-xs="${k}:${v}" class="${(Array.isArray(XF[k])?XF[k].includes(v):XF[k]===v)?'on':''}">${l||v}</button>`;
 const xNotes=()=>`<h2>Notes</h2><div class="grp"><div class="fld"><textarea data-xf="notes" placeholder="Anything the reader should know. Printed on the report.">${esc(XF.notes||'')}</textarea></div></div><div class="hint" id="xmsg" role="alert" style="color:var(--rej)"></div><button class="btn pri" id="xsave">Save report</button>${XF.id?'<button class="btn danger" id="xdel">Delete report</button>':''}`;
 function cleanFormV(){return `<button class="back" id="bk">${BK}Reports</button><h1>${XF.id?'Edit':'New'} no-indication report</h1><p class="sub">Record a weld that was scanned and showed no indications to report.</p>
@@ -3429,7 +3431,7 @@ const xHdr=()=>{const x=XF,f=k=>String(x[k]??'').trim()!=='',loc=(f('rstart')&&f
  xLenWarn=()=>{const a=num(XF.rstart),b=num(XF.rend),l=num(XF.len),base='Start and end are measured along the weld from its datum (zero) point.';if(a==null||b==null||b<=a||l==null)return base+' Length fills in from them.';const d=+(b-a).toFixed(1);return Math.abs(l-d)>.05?'Length ('+l+' mm) differs from end minus start ('+d+' mm). Check both.':base};
 function repFormV(){const R=(v,l)=>xSeg('reinsp',v,l);return `<button class="back" id="bk">${BK}Reports</button><h1>${XF.id?'Edit':'New'} repair report</h1><p class="sub">${esc([XF.weld,XF.job,XF.project].filter(Boolean).join(' \u00b7 ')||'Record the repair and how the re-inspection came out.')}</p>
  <div id="xhdr">${xHdr()}</div>
- <h2>Weld</h2><div class="grp">${fF('weld','Weld ID *','W-014')}${fF('job','Job *','Pipe rack B')}${fF('project','Project','Refinery unit 4')}${fF('rno','Report no.','RP-001')}${fF('no','Repair number','1')}</div><div id="xchips">${xChips()}</div>
+ <h2>Weld</h2><div class="grp">${fP('rno','Report no.','RP-001','no','Repair no. (auto)','1')}${fP('project','Project','Refinery unit 4','job','Job *','Pipe rack B')}${fF('weld','Weld ID *','W-014')}</div><div id="xchips">${xChips()}</div>
  <h2>Indications repaired</h2><div class="grp" id="xlink">${xLink()}</div>
  <h2>Repair</h2><div class="f" style="margin-bottom:8px"><label>Method</label><select class="dd" data-xf="method" style="margin-top:6px">${['Grind and re-weld','Gouge and re-weld','Cut out and re-weld','Grind only','Other'].map(m=>`<option${XF.method===m?' selected':''}>${m}</option>`).join('')}</select></div>
  <div class="grp">${fF('rstart','Repair starts at (mm)','0')}${fF('rend','Repair ends at (mm)','0')}${fF('len','Repair length (mm)','0')}${fF('depth','Excavation depth (mm)','0')}</div><div class="hint" id="xlenw">${xLenWarn()}</div>
